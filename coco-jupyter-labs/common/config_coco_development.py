@@ -6,12 +6,11 @@ Copyright Contributors to the ODPi Egeria project.
 
 Egeria Coco Pharmaceutical demonstration labs.
 
-This script creates and configures the cocoMDSx server.
+This script configures and initiates the Egeria OMAG Servers deployed on the Development Platform.
+It is automatically run whenever the Coco Lab Compose script is started.
 
 """
 
-
-import json
 import argparse
 
 from globals import (cocoMDSxName, devPlatformURL, cocoCohort, iotCohort, max_paging_size, dataLakePlatformURL,

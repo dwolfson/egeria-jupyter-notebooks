@@ -4,6 +4,6 @@
 # Code ownership for Egeria - see https://help.github.com/articles/about-codeowners/
 # Note that the LAST matching pattern will be effective so please more generic paths towards the top
 
-/ @mandy-chessell @planetf1
-Dockerfile @planetf1
-.github @planetf1
+/ @mandy-chessell @planetf1 @dwolfson
+Dockerfile @dwolfson
+.github @dwolfson

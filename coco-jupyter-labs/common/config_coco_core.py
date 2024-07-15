@@ -7,8 +7,8 @@ Copyright Contributors to the ODPi Egeria project.
 
 Egeria Coco Pharmaceutical demonstration labs.
 
-This script creates and configures the cocoMDS2 - Governance metadata server
-
+This script configures and initiates the Egeria OMAG Servers deployed on the Core Platform.
+It is automatically run whenever the Coco Lab Compose script is started.
 
 """
 

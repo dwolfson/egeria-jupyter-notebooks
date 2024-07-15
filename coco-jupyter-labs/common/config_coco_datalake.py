@@ -7,21 +7,21 @@ Copyright Contributors to the ODPi Egeria project.
 
 Egeria Coco Pharmaceutical demonstration labs.
 
-This script creates and configures the Data Lake
-
+This script configures and initiates the Egeria OMAG Servers deployed on the Datalake Platform.
+It is automatically run whenever the Coco Lab Compose script is started.
 
 """
 
-
-import json
 import argparse
-import httpx
-from globals import (cocoMDS2Name, corePlatformURL, cocoCohort, devCohort, iotCohort, max_paging_size, cocoMDS1Name,
-                     cocoMDS4Name, dataLakePlatformURL, fileSystemRoot, adminUserId)
+
 from pyegeria import CoreServerConfig, Platform, FullServerConfig
 from pyegeria import (
     print_exception_response,
 )
+
+from globals import (corePlatformURL, cocoCohort, max_paging_size, cocoMDS1Name,
+                     cocoMDS4Name, dataLakePlatformURL, fileSystemRoot, adminUserId)
+
 
 def config_coco_datalake(url:str, userid:str):
     print("Configuring and starting the Data Lake")

@@ -41,7 +41,7 @@ services:
         volumes:
             - ../coco-jupyter-labs/:/home/jovyan/work
             - ./before-notebook.d:/usr/local/bin/before-notebook.d
-            - ./coco-lab-docker-compose:/home/jovyan/scripts
+          #  - ./coco-lab-docker-compose:/home/jovyan/scripts
 
     kafka:
          image: 'bitnami/kafka:latest'
@@ -62,15 +62,20 @@ services:
             - kafka
         image: 'docker.io/odpi/egeria-platform:latest'
         ports:
-            - '9743:9743'
+            - '7443:7443'
 
         environment:
             - XTDB_ENABLE_BYTEUTILS_SHA1=True
             - XTDB_DISABLE_LIBCRYPTO=True
             - startup.server.list=
-            - server.port=9743
+            - server.port=7443
         healthcheck:
-            test:  curl -k -X GET "https://localhost:9743/open-metadata/platform-services/users/garygeeke/server-platform/origin" || exit 1
+            test:  curl -k -X GET "https://localhost:7443/open-metadata/platform-services/users/garygeeke/server-platform/origin" || exit 1
+            interval: 20s
+            timeout: 10s
+            retries: 3
+            start_period: 10s
+            start_interval: 5s
 
         #        volumes:
         #            - "YOUR DATA DIRECTORY"/data:/deployments/data
@@ -82,15 +87,20 @@ services:
 
         image: 'docker.io/odpi/egeria-platform:latest'
         ports:
-            - '9744:9744'
+            - '7444:7444'
 
         environment:
             - XTDB_ENABLE_BYTEUTILS_SHA1=True
             - XTDB_DISABLE_LIBCRYPTO=True
             - startup.server.list=
-            - server.port=9744
+            - server.port=7444
         healthcheck:
-            test: curl -k -X GET "https://localhost:9744/open-metadata/platform-services/users/garygeeke/server-platform/origin" || exit 1
+            test: curl -k -X GET "https://localhost:7444/open-metadata/platform-services/users/garygeeke/server-platform/origin" || exit 1
+            interval: 20s
+            timeout: 10s
+            retries: 3
+            start_period: 10s
+            start_interval: 5s
 
     egeria-dev:
         depends_on:
@@ -98,31 +108,20 @@ services:
 
         image: 'docker.io/odpi/egeria-platform:latest'
         ports:
-            - '9745:9745'
+            - '7445:7445'
 
         environment:
             - XTDB_ENABLE_BYTEUTILS_SHA1=True
             - XTDB_DISABLE_LIBCRYPTO=True
             - startup.server.list=
-            - server.port=9745
+            - server.port=7445
         healthcheck:
-            test: curl -k -X GET "https://localhost:9745/open-metadata/platform-services/users/garygeeke/server-platform/origin" || exit 1
-
-
-
-#    postgres:
-#        image: postgres:latest
-#        container_name: observations
-#        restart: always
-#        ports:
-#            - "127.0.0.1:5432:5432"
-#
-#        shm_size: 128mb
-#        environment:
-#            POSTGRES_PASSWORD: notingres
-#        volumes:
-#            - db_home:/var/lib/postgresql/data
-#            - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+            test: curl -k -X GET "https://localhost:7445/open-metadata/platform-services/users/garygeeke/server-platform/origin" || exit 1
+            interval: 20s
+            timeout: 10s
+            retries: 3
+            start_period: 10s
+            start_interval: 5s
 
 
 #

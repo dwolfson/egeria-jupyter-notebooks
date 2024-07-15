@@ -11,7 +11,9 @@ FROM quay.io/jupyter/minimal-notebook
 #COPY ../config_coco_core.py /config_coco.py
 #RUN chmod +x /config_coco.py
 
-RUN pip install --no-cache-dir 'pyegeria'
+RUN pip install --no-cache-dir 'pyegeria>=0.5.5'
+RUN pip install --no-cache-dir 'rich'
+
 #    && \
 #    fix-permissions "${CONDA_DIR}" && \
 #    fix-permissions "/home/${NB_USER}" \

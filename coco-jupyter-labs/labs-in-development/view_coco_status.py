@@ -13,7 +13,7 @@ import argparse
 import time
 
 from rich import box
-from rich import print
+from rich.jupyter import print
 from rich.layout import Layout
 from rich.live import Live
 from rich.panel import Panel
@@ -33,9 +33,9 @@ disable_ssl_warnings = True
 def display_status(server: str, url: str, username: str):
     layout = Layout()
 
-    p_client1 = ServerOps("Core Catalog", "https://host.docker.internal:9743", username)
-    p_client2 = ServerOps('Datalake Catalog', "https://host.docker.internal:9744", username)
-    p_client3 = ServerOps('DevCatalog', "https://host.docker.internal:9745", username)
+    p_client1 = ServerOps("Core Catalog", "https://host.docker.internal:7443", username)
+    p_client2 = ServerOps('Datalake Catalog', "https://host.docker.internal:7444", username)
+    p_client3 = ServerOps('DevCatalog', "https://host.docker.internal:7445", username)
 
     def generate_table(p_client) -> Table:
         """Make a new table."""

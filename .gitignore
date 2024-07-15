@@ -31,6 +31,8 @@ data/**
 *.swp
 .java-version
 *.graphml
+.ipynb_checkpoints
+.venv
 
 
 # Ignore private maven repo (jenkins)

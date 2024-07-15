@@ -39,13 +39,13 @@ max_paging_size = 1200
 #
 
 # These are the three main platforms used to run Egeria's OMAG Servers
-corePlatformURL      = os.environ.get('corePlatformURL', 'https://host.docker.internal:9743')
+corePlatformURL      = os.environ.get('corePlatformURL', 'https://host.docker.internal:7443')
 corePlatformName     = "Core Platform"
 
-dataLakePlatformURL  = os.environ.get('dataLakePlatformURL', 'https://host.docker.internal:9744')
+dataLakePlatformURL  = os.environ.get('dataLakePlatformURL', 'https://host.docker.internal:7444')
 dataLakePlatformName = "Data Lake Platform"
 
-devPlatformURL       = os.environ.get('devPlatformURL', 'https://host.docker.internal:9745')
+devPlatformURL       = os.environ.get('devPlatformURL', 'https://host.docker.internal:7445')
 devPlatformName      = "Dev Platform"
 
 

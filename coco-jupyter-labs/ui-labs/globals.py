@@ -33,19 +33,19 @@ egeriaSampleDataRoot = os.environ.get('egeriaSampleDataRoot', '')
 #
 isDebug = False
 disable_ssl_warnings = True
-max_paging_size = 1200
+max_paging_size = 600
 #
 # Definitions of the Coco Pharmaceuticals Environment
 #
 
 # These are the three main platforms used to run Egeria's OMAG Servers
-corePlatformURL      = os.environ.get('corePlatformURL', 'https://localhost:9743')
+corePlatformURL      = os.environ.get('corePlatformURL', 'https://host.docker.internal:7443')
 corePlatformName     = "Core Platform"
 
-dataLakePlatformURL  = os.environ.get('dataLakePlatformURL', 'https://localhost:9744')
+dataLakePlatformURL  = os.environ.get('dataLakePlatformURL', 'https://host.docker.internal:7444')
 dataLakePlatformName = "Data Lake Platform"
 
-devPlatformURL       = os.environ.get('devPlatformURL', 'https://localhost:9745')
+devPlatformURL       = os.environ.get('devPlatformURL', 'https://host.docker.internal:7445')
 devPlatformName      = "Dev Platform"
 
 
