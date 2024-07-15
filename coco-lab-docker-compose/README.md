@@ -18,13 +18,16 @@ environment that includes:
 
 * Three Egeria OMAG Server Platforms (Core, Datalake, and Development)
 * Kafka
-* Jupyter Server that is used to run the lab excercises
+* Jupyter Server that is used to run the lab exercises
 
 
 # Getting Started
 
-To get started, you a computer with Docker installed and configured. While most of our experience is running on Mac and 
-Linux machines, Windows machines should also work (reach out if you run into issues). 
+To get started, you need a computer with Docker installed and configured. Our experience is with running Docker on Mac and 
+Linux machines, Windows machines should also work (reach out if you run into issues). Docker can be installed from 
+[Docker](https://docker.com). Compatible alternatives to Docker Compose exist but have not yet been validated.
+
+
 
 
 

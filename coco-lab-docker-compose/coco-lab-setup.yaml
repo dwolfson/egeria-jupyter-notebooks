@@ -109,7 +109,6 @@ services:
         image: 'docker.io/odpi/egeria-platform:latest'
         ports:
             - '7445:7445'
-
         environment:
             - XTDB_ENABLE_BYTEUTILS_SHA1=True
             - XTDB_DISABLE_LIBCRYPTO=True

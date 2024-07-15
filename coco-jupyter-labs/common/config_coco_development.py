@@ -52,20 +52,29 @@ def config_coco_development(url: str, userid: str):
             }
         }
 
-        security_connection_body = {
-            "class": "Connection",
-            "connectorType": {
-                "class": "ConnectorType",
-                "connectorProviderClassName":
-                    "org.odpi.openmetadata.metadatasecurity.samples.CocoPharmaServerSecurityProvider"
-            }
-        }
+        # security_connection_body = {
+        #     "class": "Connection",
+        #     "connectorType": {
+        #         "class": "ConnectorType",
+        #         "connectorProviderClassName":
+        #             "org.odpi.openmetadata.metadatasecurity.samples.CocoPharmaServerSecurityProvider"
+        #     }
+        # }
 
+        security_connection_body = {
+                "class": "Connection",
+                "connectorType": {
+                    "class": "ConnectorType",
+                    "connectorProviderClassName":
+                        "org.odpi.openmetadata.metadatasecurity.samples.CocoPharmaServerSecurityProvider"
+                }
+            }
+        
         o_client.set_event_bus(event_bus_config)
         o_client.set_server_security_connection(security_connection_body)
         o_client.add_default_log_destinations()
-        o_client.set_in_mem_local_repository()
-        # o_client.set_xtdb_local_kv_repository()
+        # o_client.set_in_mem_local_repository()
+        o_client.set_xtdb_local_kv_repository()
 
         o_client.set_local_metadata_collection_id(metadataCollectionId)
         o_client.set_local_metadata_collection_name(metadataCollectionName)
