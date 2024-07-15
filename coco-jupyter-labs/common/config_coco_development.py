@@ -200,12 +200,12 @@ def config_coco_development(url: str, userid: str):
                                 {
                                     "producer":
                                         {
-                                            "bootstrap.servers": "localhost:9092"
+                                            "bootstrap.servers": "host.docker.internal:9192"
                                         },
                                     "local.server.id": "f234e808-2d0c-4d88-83df-275eee20c1b7",
                                     "consumer":
                                         {
-                                            "bootstrap.servers": "localhost:9092"
+                                            "bootstrap.servers": "host.docker.internal:9192"
                                         }
                                 }
                         }

@@ -5,18 +5,17 @@
 
 # To run
 #   * Ensure Docker is installed and running
-#   * Start Egeria Platform stack using
-#     'coco-lab-docker-compose -f ./egeria-platform-postgres.yaml up'
+#   * Start Egeria Platform stack from the 'coco-lab-docker-compose' folder using:
+#     'docker compose -f ./coco-lab-setup.yaml up --build'
+#   * Subsequent startups can be performed without the '--build' at the end
+#   * Uninstall the containers by issuing 'docker compose -f ./coco-lab-setup.yaml down'
 #
 # Assumptions:
-#   * Ports 9443 and 9092 are available on the host system - these are the default ports for Kafka and Egeria.
-#   * by default, no external volumes are used - comments below give examples of using external volumes
-#   * by default, Egeria will start with its set of default servers (active-metadata-store,view-server,
-#     integration-daemon,engine-host,simple-metadata-store) - you can change this.
+#   * Ports 7443, 7444, 7445 and 9192 are available on the host system - these are the default ports for Kafka and Egeria.
+#   * by default, the jupyter notebooks in the 'coco-jupyter-labs' folder are mounted and available for use by the jupyter noteboos
 #   * by default, strict SSL validation is turned off
 #
-# See the following link for more info on volumes & why we need to use root:
-#   https://docs.bitnami.com/containers/how-to/work-with-non-root-containers
+#
 
 services:
     jupyter-hub:
@@ -60,7 +59,7 @@ services:
     egeria-core:
         depends_on:
             - kafka
-        image: 'docker.io/odpi/egeria-platform:latest'
+        image: 'docker.io/odpi/egeria-platform:stable'
         ports:
             - '7443:7443'
 
@@ -85,7 +84,7 @@ services:
         depends_on:
             - kafka
 
-        image: 'docker.io/odpi/egeria-platform:latest'
+        image: 'docker.io/odpi/egeria-platform:stable'
         ports:
             - '7444:7444'
 
@@ -106,7 +105,7 @@ services:
         depends_on:
             - kafka
 
-        image: 'docker.io/odpi/egeria-platform:latest'
+        image: 'docker.io/odpi/egeria-platform:stable'
         ports:
             - '7445:7445'
         environment:
