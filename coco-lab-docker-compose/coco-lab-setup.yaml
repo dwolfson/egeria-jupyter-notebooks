@@ -30,7 +30,7 @@ services:
         image: quay.io/jupyter/minimal-notebook
         container_name: jupyter
         ports:
-            - 8888:8888
+            - 9888:8888
         environment:
             JUPYTER_ENABLE_LAB: "yes"
             JUPYTER_TOKEN: "egeria"
@@ -38,7 +38,7 @@ services:
             dockerfile: Dockerfile
 
         volumes:
-            - ../coco-jupyter-labs/:/home/jovyan/work
+            - ../coco-jupyter-labs/:/home/jovyan/egeria-labs
             - ./before-notebook.d:/usr/local/bin/before-notebook.d
           #  - ./coco-lab-docker-compose:/home/jovyan/scripts
 

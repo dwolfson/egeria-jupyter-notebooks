@@ -13,7 +13,9 @@ FROM quay.io/jupyter/minimal-notebook
 
 RUN pip install --no-cache-dir 'pyegeria>=0.5.5'
 RUN pip install --no-cache-dir 'rich'
-
+RUN mkdir /home/jovyan/egeria-labs
+RUN chmod +xrw /home/jovyan/egeria-labs
+copy ../Start-Here.md /home/jovyan
 #    && \
 #    fix-permissions "${CONDA_DIR}" && \
 #    fix-permissions "/home/${NB_USER}" \

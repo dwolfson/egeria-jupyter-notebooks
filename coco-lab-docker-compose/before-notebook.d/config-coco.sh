@@ -10,9 +10,9 @@
 # Platforms that are part of the sample Coco Pharmaceuticals deployment environment.
 
 export PYTHONDONTWRITEBYTECODE=1
-python3 /home/jovyan/work/common/config_coco_core.py
-python3 /home/jovyan/work/common/config_coco_datalake.py
-python3 /home/jovyan/work/common/config_coco_development.py
+python3 /home/jovyan/egeria-labs/common/config_coco_core.py
+python3 /home/jovyan/egeria-labs/common/config_coco_datalake.py
+python3 /home/jovyan/egeria-labs/common/config_coco_development.py
 echo "Launching Jupyter notebook server.."
 
 
