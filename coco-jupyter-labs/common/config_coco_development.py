@@ -32,87 +32,81 @@ def config_coco_development(url: str, userid: str):
     metadataCollectionId = f"{mdr_server}-e915f2fa-aa3g-4396-8bde-bcd65e642b1d"
     metadataCollectionName = "Development Catalog"
 
+    event_bus_config = {
+        "producer": {
+            "bootstrap.servers": "host.docker.internal:9192"
+        },
+        "consumer": {
+            "bootstrap.servers": "host.docker.internal:9192"
+        }
+    }
+
+    security_connection_body = {
+        "class": "Connection",
+        "connectorType": {
+            "class": "ConnectorType",
+            "connectorProviderClassName":
+                "org.odpi.openmetadata.metadatasecurity.samples.CocoPharmaServerSecurityProvider"
+        }
+    }
+
     print("Configuring " + mdr_server + "...")
-
+    p_client = Platform(mdr_server, platform_url, admin_user)
     try:
-        o_client = CoreServerConfig(mdr_server, platform_url, admin_user)
+        if p_client.is_server_configured(mdr_server):
+            p_client.activate_server_if_down(mdr_server)
+        else:
+            o_client = CoreServerConfig(mdr_server, platform_url, admin_user)
 
-        o_client.set_basic_server_properties("Development Server",
-                                             "Coco Pharmaceuticals",
-                                             platform_url,
-                                             mdr_server_user_id, mdr_server_password,
-                                             max_paging_size)
+            o_client.set_basic_server_properties("Development Server",
+                                                 "Coco Pharmaceuticals",
+                                                 platform_url,
+                                                 mdr_server_user_id, mdr_server_password,
+                                                 max_paging_size)
 
-        event_bus_config = {
-            "producer": {
-                "bootstrap.servers": "host.docker.internal:9192"
-            },
-            "consumer": {
-                "bootstrap.servers": "host.docker.internal:9192"
+            o_client.set_event_bus(event_bus_config)
+            o_client.set_server_security_connection(security_connection_body)
+            o_client.add_default_log_destinations()
+            # o_client.set_in_mem_local_repository()
+            o_client.set_xtdb_local_kv_repository()
+
+            o_client.set_local_metadata_collection_id(metadataCollectionId)
+            o_client.set_local_metadata_collection_name(metadataCollectionName)
+
+            o_client.add_cohort_registration(cocoCohort)
+            o_client.add_cohort_registration(iotCohort)
+
+            print(f"Configuring {mdr_server}  Access Services (OMAS)....")
+
+            access_service_options = {
+                "SupportedZones": ["sdlc", "quarantine", "clinical-trials", "research", "data-lake", "trash-can"],
+                "DefaultZones": ["sdlc", "quarantine"]
             }
-        }
 
-        # security_connection_body = {
-        #     "class": "Connection",
-        #     "connectorType": {
-        #         "class": "ConnectorType",
-        #         "connectorProviderClassName":
-        #             "org.odpi.openmetadata.metadatasecurity.samples.CocoPharmaServerSecurityProvider"
-        #     }
-        # }
+            # o_client.configure_access_service("asset-catalog", access_service_options)
+            o_client.configure_access_service("asset-consumer", access_service_options)
+            o_client.configure_access_service("asset-owner", access_service_options)
+            o_client.configure_access_service("community-profile",
+                                              {"KarmaPointPlateau": "500"})
+            # o_client.configure_access_service("glossary-view", {})
+            o_client.configure_access_service("data-science", access_service_options)
+            # o_client.configure_access_service("subject-area", {})
+            o_client.configure_access_service("asset-manager", access_service_options)
+            o_client.configure_access_service("governance-engine", access_service_options)
+            o_client.configure_access_service("governance-server", access_service_options)
+            # o_client.configure_access_service("data-manager", access_service_options)
+            o_client.configure_access_service("it-infrastructure", access_service_options)
+            o_client.configure_access_service("project-management", access_service_options)
+            o_client.configure_access_service("software-developer", access_service_options)
+            # o_client.configure_access_service("devops", access_service_options)
+            o_client.configure_access_service("digital-architecture", access_service_options)
+            o_client.configure_access_service("design-model", access_service_options)
 
-        security_connection_body = {
-                "class": "Connection",
-                "connectorType": {
-                    "class": "ConnectorType",
-                    "connectorProviderClassName":
-                        "org.odpi.openmetadata.metadatasecurity.samples.CocoPharmaServerSecurityProvider"
-                }
-            }
-        
-        o_client.set_event_bus(event_bus_config)
-        o_client.set_server_security_connection(security_connection_body)
-        o_client.add_default_log_destinations()
-        # o_client.set_in_mem_local_repository()
-        o_client.set_xtdb_local_kv_repository()
+            print(f"Configuring {mdr_server}")
 
-        o_client.set_local_metadata_collection_id(metadataCollectionId)
-        o_client.set_local_metadata_collection_name(metadataCollectionName)
+            p_client.activate_server_stored_config(mdr_server)
 
-        o_client.add_cohort_registration(cocoCohort)
-        o_client.add_cohort_registration(iotCohort)
-
-        print(f"Configuring {mdr_server}  Access Services (OMAS)....")
-
-        access_service_options = {
-            "SupportedZones": ["sdlc", "quarantine", "clinical-trials", "research", "data-lake", "trash-can"],
-            "DefaultZones": ["sdlc", "quarantine"]
-        }
-
-        # o_client.configure_access_service("asset-catalog", access_service_options)
-        o_client.configure_access_service("asset-consumer", access_service_options)
-        o_client.configure_access_service("asset-owner", access_service_options)
-        o_client.configure_access_service("community-profile",
-                                          {"KarmaPointPlateau": "500"})
-        # o_client.configure_access_service("glossary-view", {})
-        o_client.configure_access_service("data-science", access_service_options)
-        # o_client.configure_access_service("subject-area", {})
-        o_client.configure_access_service("asset-manager", access_service_options)
-        o_client.configure_access_service("governance-engine", access_service_options)
-        o_client.configure_access_service("governance-server", access_service_options)
-        # o_client.configure_access_service("data-manager", access_service_options)
-        o_client.configure_access_service("it-infrastructure", access_service_options)
-        o_client.configure_access_service("project-management", access_service_options)
-        o_client.configure_access_service("software-developer", access_service_options)
-        # o_client.configure_access_service("devops", access_service_options)
-        o_client.configure_access_service("digital-architecture", access_service_options)
-        o_client.configure_access_service("design-model", access_service_options)
-
-        print(f"Configuring {mdr_server}")
-        p_client = Platform(mdr_server, platform_url, admin_user)
-        p_client.activate_server_stored_config()
-
-        print(f"\n\n\tActivation of {mdr_server} is complete.")
+            print(f"\n\n\tActivation of {mdr_server} is complete.")
 
     except Exception as e:
         print_exception_response(e)
@@ -131,26 +125,21 @@ def config_coco_development(url: str, userid: str):
     print("Configuring " + daemon_server_name + "...")
 
     try:
-        f_client = FullServerConfig(daemon_server_name, daemon_server_platform, admin_user)
+        if p_client.is_server_configured(daemon_server_name):
+            p_client.activate_server_if_down(daemon_server_name)
+        else:
+            f_client = FullServerConfig(daemon_server_name, daemon_server_platform, admin_user)
 
-        f_client.set_basic_server_properties("Integration daemon supporting the development team",
-                                             "Coco Pharmaceuticals",
-                                             daemon_server_platform,
-                                             daemon_server_user_id, daemon_server_password,
-                                             max_paging_size)
+            f_client.set_basic_server_properties("Integration daemon supporting the development team",
+                                                 "Coco Pharmaceuticals",
+                                                 daemon_server_platform,
+                                                 daemon_server_user_id, daemon_server_password,
+                                                 max_paging_size)
 
-        security_connection_body = {
-            "class": "Connection",
-            "connectorType": {
-                "class": "ConnectorType",
-                "connectorProviderClassName":
-                    "org.odpi.openmetadata.metadatasecurity.samples.CocoPharmaServerSecurityProvider"
-            }
-        }
-        f_client.set_server_security_connection(security_connection_body)
-        f_client.add_default_log_destinations()
+            f_client.set_server_security_connection(security_connection_body)
+            f_client.add_default_log_destinations()
 
-        print(f"Initial configuration of {daemon_server_name} is complete.")
+            print(f"Initial configuration of {daemon_server_name} is complete.")
 
     except Exception as e:
         print_exception_response(e)
@@ -320,35 +309,27 @@ def config_coco_development(url: str, userid: str):
             "usesBlockingCalls": "false"
         }]
 
-    print("\nDone.")
-
     try:
-        f_client = FullServerConfig(daemon_server_name, daemon_server_platform, admin_user)
+        if p_client.is_server_configured(daemon_server_name):
+            p_client.activate_server_if_down(daemon_server_name)
+        else:
+            f_client = FullServerConfig(daemon_server_name, daemon_server_platform, admin_user)
 
-        f_client.set_basic_server_properties("An Engine Host to run governance actions for Coco Pharmaceuticals",
-                                             "Coco Pharmaceuticals",
-                                             daemon_server_platform,
-                                             daemon_server_user_id, daemon_server_password,
-                                             max_paging_size)
+            f_client.set_basic_server_properties("An Engine Host to run governance actions for Coco Pharmaceuticals",
+                                                 "Coco Pharmaceuticals",
+                                                 daemon_server_platform,
+                                                 daemon_server_user_id, daemon_server_password,
+                                                 max_paging_size)
 
-        security_connection_body = {
-            "class": "Connection",
-            "connectorType": {
-                "class": "ConnectorType",
-                "connectorProviderClassName":
-                    "org.odpi.openmetadata.metadatasecurity.samples.CocoPharmaServerSecurityProvider"
-            }
-        }
-        f_client.set_server_security_connection(security_connection_body)
-        f_client.add_default_log_destinations()
+            f_client.set_server_security_connection(security_connection_body)
+            f_client.add_default_log_destinations()
 
-        f_client.config_integration_service(mdr_server, mdr_platform_url,
-                                            "lineage-integrator", {}, connectorConfigs)
+            f_client.config_integration_service(mdr_server, mdr_platform_url,
+                                                "lineage-integrator", {}, connectorConfigs)
 
-        print(f"Activating {daemon_server_name}")
-        p_client = Platform(daemon_server_name, daemon_server_platform, admin_user)
-        p_client.activate_server_stored_config()
-        print(f"Activation of {daemon_server_name} complete")
+            print(f"Activating {daemon_server_name}")
+            p_client.activate_server_stored_config(daemon_server_name)
+            print(f"Activation of {daemon_server_name} complete")
     except Exception as e:
         print_exception_response(e)
 

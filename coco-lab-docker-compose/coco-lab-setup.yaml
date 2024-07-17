@@ -20,11 +20,11 @@
 services:
     jupyter-hub:
         depends_on:
-            egeria-core:
+            coco-core:
                 condition: service_healthy
-            egeria-datalake:
+            coco-datalake:
                 condition: service_healthy
-            egeria-dev:
+            coco-dev:
                 condition: service_healthy
 
         image: quay.io/jupyter/minimal-notebook
@@ -40,7 +40,9 @@ services:
         volumes:
             - ../coco-jupyter-labs/:/home/jovyan/egeria-labs
             - ./before-notebook.d:/usr/local/bin/before-notebook.d
-          #  - ./coco-lab-docker-compose:/home/jovyan/scripts
+            - ../work:/home/jovyan/work
+            - ../demos:/home/jovyan/demos
+            - ../egeria-main/landing_area:/home/jovyan/demos/landing_area
 
     kafka:
          image: 'bitnami/kafka:latest'
@@ -56,10 +58,11 @@ services:
              - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9193
              - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
 
-    egeria-core:
+    coco-core:
         depends_on:
             - kafka
-        image: 'docker.io/odpi/egeria-platform:stable'
+#        image: 'docker.io/odpi/egeria-platform:latest'
+        image: 'egeria-platform:laz'
         ports:
             - '7443:7443'
 
@@ -76,15 +79,11 @@ services:
             start_period: 10s
             start_interval: 5s
 
-        #        volumes:
-        #            - "YOUR DATA DIRECTORY"/data:/deployments/data
-        #            - "YOUR EXTRA LIBRARY DIRECTORY"/extra:/deployments/extra
-        #            - "ANOTHER DIRECTOR TO MOUNT"/:/deployments/user_mount
-    egeria-datalake:
+    coco-datalake:
         depends_on:
             - kafka
-
-        image: 'docker.io/odpi/egeria-platform:stable'
+        image: 'egeria-platform:laz'
+#        image: 'docker.io/odpi/egeria-platform:latest'
         ports:
             - '7444:7444'
 
@@ -101,11 +100,11 @@ services:
             start_period: 10s
             start_interval: 5s
 
-    egeria-dev:
+    coco-dev:
         depends_on:
             - kafka
-
-        image: 'docker.io/odpi/egeria-platform:stable'
+        image: 'egeria-platform:laz'
+#        image: 'docker.io/odpi/egeria-platform:latest'
         ports:
             - '7445:7445'
         environment:
@@ -120,6 +119,32 @@ services:
             retries: 3
             start_period: 10s
             start_interval: 5s
+    
+#    egeria-main:
+#        depends_on:
+#            - kafka
+#        image: 'egeria-platform:laz'
+##        image: 'docker.io/odpi/egeria-platform:latest'
+#        ports:
+#            - '9443:9443'
+#        environment:
+#            - XTDB_ENABLE_BYTEUTILS_SHA1=True
+#            - XTDB_DISABLE_LIBCRYPTO=True
+#            - startup.server.list=active-metadata-store,engine-host,integration-daemon,view-server,simple-metadata-store
+#            - server.port=9443
+#        healthcheck:
+#            test: curl -k -X GET "https://localhost:9443/open-metadata/platform-services/users/garygeeke/server-platform/origin" || exit 1
+#            interval: 20s
+#            timeout: 10s
+#            retries: 3
+#            start_period: 10s
+#            start_interval: 5s
+#
+#        volumes:
+#            - ../egeria-main/landing_area:/deployments/landing-area
+#            - ../egeria-main/logs:/deployments/logs
+    #            - "YOUR EXTRA LIBRARY DIRECTORY"/extra:/deployments/extra
+    #            - "ANOTHER DIRECTOR TO MOUNT"/:/deployments/user_mount
 
 
 #
