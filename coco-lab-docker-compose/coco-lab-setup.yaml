@@ -61,8 +61,8 @@ services:
     coco-core:
         depends_on:
             - kafka
-#        image: 'docker.io/odpi/egeria-platform:latest'
-        image: 'egeria-platform:laz'
+        image: 'docker.io/odpi/egeria-platform:stable'
+#        image: 'egeria-platform:laz'
         ports:
             - '7443:7443'
 
@@ -82,8 +82,8 @@ services:
     coco-datalake:
         depends_on:
             - kafka
-        image: 'egeria-platform:laz'
-#        image: 'docker.io/odpi/egeria-platform:latest'
+#        image: 'egeria-platform:laz'
+        image: 'docker.io/odpi/egeria-platform:stable'
         ports:
             - '7444:7444'
 
@@ -103,8 +103,8 @@ services:
     coco-dev:
         depends_on:
             - kafka
-        image: 'egeria-platform:laz'
-#        image: 'docker.io/odpi/egeria-platform:latest'
+#        image: 'egeria-platform:laz'
+        image: 'docker.io/odpi/egeria-platform:stable'
         ports:
             - '7445:7445'
         environment:
